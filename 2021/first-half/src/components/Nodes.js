@@ -32,7 +32,6 @@ export default function Nodes({ $app, initialState, onClick, onBackClick }) {
   }
 
   this.render = () => {
-    console.log(44444, this.state.nodes)
     if (this.state.nodes) {
       const nodeTemplate = this.state.nodes.map((node, index) => {
         const iconPath = node.type ===  'FILE' ? '파일' : '디렉토리'
@@ -58,25 +57,34 @@ export default function Nodes({ $app, initialState, onClick, onBackClick }) {
       const { nodeId } = $node.dataset;
 
       if(!nodeId) {
-        return;
+        return onBackClick();
       }
       const selectedNode = this.state.nodes.find((node) => node.id === nodeId);
 
       onClick(selectedNode)
     })
 
-    // this.$element.querySelectorAll('.Node').forEach($node => {
-    //   $node.addEventListener('click', (e) => {
-    //     // dataset을 통해 data-로 시작하는 attribute를 꺼내올 수 있음
-    //     console.log(e.target)
-    //     const { nodeId } = e.target.dataset
-    //     console.log(nodeId)
+    // this.$element.addEventListener('click', (e) => {
+    //   // $target 하위에 있는 HTML 요소 클릭시 이벤트가 상위로 계속 전파 되면서
+    //   // $target까지 오게 됨. 이 특성을 이용한 기법.
+    //
+    //   // closest를 이용하면 현재 클릭한 요소와 제일 인접한 요소를 가져올 수 있음.
+    //   const $node = e.target.closest('.Node')
+    //
+    //   if ($node) {
+    //     const { nodeId } = $node.dataset
+    //
+    //     if (!nodeId) {
+    //       onBackClick()
+    //       return
+    //     }
+    //
     //     const selectedNode = this.state.nodes.find(node => node.id === nodeId)
     //
     //     if (selectedNode) {
     //       onClick(selectedNode)
     //     }
-    //   })
+    //   }
     // })
   }
 
