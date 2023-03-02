@@ -3,7 +3,7 @@ const cors = require('cors')
 const app = express()
 const port = 3000
 
-const languages = ['java', 'javascript', 'typescript', 'kotlin', 'c', 'c++', 'python'];
+const languages = ['javascript', 'typescript', 'java', 'kotlin', 'c', 'c++', 'python'];
 
 app.use(cors())
 

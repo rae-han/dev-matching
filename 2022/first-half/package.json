@@ -1,6 +1,18 @@
 {
+  "name": "first-half",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server .",
+    "dev:server": "npx nodemon ./server/app.js"
+  },
+  "author": "raehan",
+  "license": "MIT",
+  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
   }
 }
