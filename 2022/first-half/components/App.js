@@ -8,8 +8,16 @@ export default function App({ $target }) {
     selectedLanguages: []
   }
 
-  this.setSTate = (nextState) => {
+  this.setState = (nextState) => {
     console.log(nextState)
+    this.state = {
+      ...this.state,
+      ...nextState,
+    }
+
+    suggestion.setState({
+      items: this.state.fetchedLanguages,
+    })
   }
 
   const searchInput = new SearchInput({
@@ -18,11 +26,17 @@ export default function App({ $target }) {
     onChange: async (keyword) => {
       const languages = await fetchLanguage(keyword)
       console.log(languages)
+
+      this.setState({
+        fetchedLanguages: languages
+      })
     }
   });
 
   const suggestion = new Suggestion({
     $target,
-    initialState: [],
+    initialState: {
+      items: []
+    },
   })
 }

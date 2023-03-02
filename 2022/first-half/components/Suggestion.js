@@ -9,12 +9,15 @@ export default function Suggestion ({
   this.state = initialState;
 
   this.setState = (nextState) => {
+    console.log('Suggestion nextState', nextState)
     this.state = nextState;
     this.render();
   }
 
   this.render = () => {
     const { items = [] } = this.state;
+
+    console.log('items', items)
 
     if (items.length > 0) {
       this.$element.style.display = 'block';
