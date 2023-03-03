@@ -1,6 +1,7 @@
 export default function Suggestion ({
   $target,
   initialState,
+  onSelect,
 }) {
   this.$element = document.createElement('div');
   this.$element.className = 'Suggestion'
@@ -49,7 +50,7 @@ export default function Suggestion ({
     if (this.state.items.length > 0) {
       const { selectedIndex } = this.state;
       const lastIndex = this.state.items.length - 1;
-      const navigationKeys = ['ArrowUp', 'ArrowDown'];
+      const navigationKeys = ['Enter', 'ArrowUp', 'ArrowDown'];
 
       let nextIndex = selectedIndex;
 
@@ -58,6 +59,8 @@ export default function Suggestion ({
           nextIndex = selectedIndex === 0 ? lastIndex : nextIndex - 1;
         } else if (e.key === 'ArrowDown') {
           nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1;
+        } else if (e.key === 'Enter') {
+          onSelect(this.state.items[this.state.selectedIndex])
         }
 
         this.setState({

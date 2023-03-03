@@ -41,5 +41,8 @@ export default function App({ $target }) {
       selectedIndex: 0,
       items: [],
     },
+    onSelect: (language) => {
+      console.log(language)
+    }
   })
 }
