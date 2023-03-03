@@ -9,11 +9,11 @@ export default function Suggestion ({
 
   this.state = {
     selectedIndex: 0,
+    keyword: '',
     ...initialState,
   };
 
   this.setState = (nextState) => {
-    console.log('Suggestion nextState', nextState)
     this.state = {
       ...this.state,
       ...nextState,
@@ -21,10 +21,18 @@ export default function Suggestion ({
     this.render();
   }
 
-  this.render = () => {
-    const { items = [], selectedIndex } = this.state;
+  this.renderMachedItem = (keyword, item) => {
+    console.log(keyword, item)
+    if (!item.includes(keyword)) {
+      return item;
+    }
 
-    console.log('items', items)
+    const matchedText = item.match(new RegExp(keyword, 'gi'))[0];
+    return item.replace(new RegExp(matchedText, 'gi'), `<stong style="color: red">${matchedText}</stong>`)
+  }
+
+  this.render = () => {
+    const { items = [], selectedIndex, keyword } = this.state;
 
     if (items.length > 0) {
       this.$element.style.display = 'block';
@@ -34,7 +42,9 @@ export default function Suggestion ({
             <li 
               data-index="${index}"
               style="${index === selectedIndex ? 'color: blue' : ''}"
-            >${item}</li>
+            >
+              ${this.renderMachedItem(keyword, item)}
+            </li>
           `).join('')}
         </ul>
       `;
@@ -67,6 +77,20 @@ export default function Suggestion ({
           ...this.state,
           selectedIndex: nextIndex,
         })
+      }
+    }
+  })
+
+  this.$element.addEventListener('click', (e) => {
+    const $li = e.target.closest('li');
+
+    if ($li) {
+      const { index } = $li.dataset;
+
+      try {
+        onSelect(this.state.items[index])
+      } catch (e) {
+        console.error(new Error('error!'))
       }
     }
   })

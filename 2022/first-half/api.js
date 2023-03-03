@@ -3,12 +3,15 @@ export const API_END_POINT = 'http://localhost:3000';
 const cache = {};
 
 const request = async (url) => {
-  const response = await fetch(url);
+  if (cache[url]) {
+    return cache[url];
+  }
 
-  console.log(response)
+  const response = await fetch(url);
 
   if(response.ok) {
     const json = await response.json();
+    cache[url] = json;
     return json;
   }
 
