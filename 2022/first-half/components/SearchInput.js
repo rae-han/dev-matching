@@ -19,9 +19,11 @@ export default function SearchInput({
 
   this.render();
 
-  console.log(this.$element)
-
   this.$element.addEventListener('keyup', (e) => {
-    onChange(e.target.value);
+    const actionIngnoreKeys = ['Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
+
+    if (!actionIngnoreKeys.includes(e.key)) {
+      onChange(e.target.value);
+    }
   })
 }

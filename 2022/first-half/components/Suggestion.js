@@ -6,16 +6,22 @@ export default function Suggestion ({
   this.$element.className = 'Suggestion'
   $target.appendChild(this.$element);
 
-  this.state = initialState;
+  this.state = {
+    selectedIndex: 0,
+    ...initialState,
+  };
 
   this.setState = (nextState) => {
     console.log('Suggestion nextState', nextState)
-    this.state = nextState;
+    this.state = {
+      ...this.state,
+      ...nextState,
+    };
     this.render();
   }
 
   this.render = () => {
-    const { items = [] } = this.state;
+    const { items = [], selectedIndex } = this.state;
 
     console.log('items', items)
 
@@ -23,7 +29,12 @@ export default function Suggestion ({
       this.$element.style.display = 'block';
       this.$element.innerHTML = `
         <ul>
-          ${items.map((item, index) => `<li data-index="${index}">${item}</li>`).join('')}
+          ${items.map((item, index) => `
+            <li 
+              data-index="${index}"
+              style="${index === selectedIndex ? 'color: blue' : ''}"
+            >${item}</li>
+          `).join('')}
         </ul>
       `;
     } else {
@@ -33,4 +44,27 @@ export default function Suggestion ({
   }
 
   this.render();
+
+  window.addEventListener('keyup', e => {
+    if (this.state.items.length > 0) {
+      const { selectedIndex } = this.state;
+      const lastIndex = this.state.items.length - 1;
+      const navigationKeys = ['ArrowUp', 'ArrowDown'];
+
+      let nextIndex = selectedIndex;
+
+      if (navigationKeys.includes(e.key)) {
+        if (e.key === 'ArrowUp') {
+          nextIndex = selectedIndex === 0 ? lastIndex : nextIndex - 1;
+        } else if (e.key === 'ArrowDown') {
+          nextIndex = selectedIndex === lastIndex ? 0 : nextIndex + 1;
+        }
+
+        this.setState({
+          ...this.state,
+          selectedIndex: nextIndex,
+        })
+      }
+    }
+  })
 }
